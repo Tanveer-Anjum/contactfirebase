@@ -12,6 +12,7 @@ import AddCreate from './Components/AddCreate'
 import useDisclose from './hooks/useDisclose'
 
 import { ToastContainer, toast } from 'react-toastify';
+import NoFound from './Components/NoFound';
 
 function App() {
 
@@ -45,6 +46,14 @@ function App() {
     getContacts()
 
   }, [])
+  const onfilter =(e)=>{
+    const searchTerm = e.target.value;
+    const filteredContacts = contacts.filter(contact => 
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setContacts(filteredContacts);
+
+  }
   return (
     <>
       <div className="max-w-[370px] mx-auto md:max-w-[600px] lg:max-w-[800px] xl:max-w-[1000px] 2xl:max-w-[1200px]">
@@ -53,13 +62,13 @@ function App() {
         <div className='flex justify-center items-center '>
           <div className=" w-full flex items-center rounded-lg overflow-hidden my-3 relative align-center">
             <FontAwesomeIcon icon={faMagnifyingGlass} className=" text-gray-500 absolute left-2" />
-            <input type="text" placeholder="Enter your name" className=" w-full p-2 pl-10 rounded-lg border border-gray-300 bg-white " />
+            <input onChange={onfilter} type="text" placeholder="Enter your name" className=" w-full p-2 pl-10 rounded-lg border border-gray-300 bg-white " />
 
           </div>
           <FontAwesomeIcon onClick={onOpen} icon={faCirclePlus} className="p-2 text-white text-2xl hover:text-gray-500 ease-in-out duration-200" />
         </div>
         <div className='flex gap-2 flex-col'>
-          {contacts.map((app) => (
+          {contacts.length ===0 ?<NoFound /> : contacts.map((app) => (
 
             <Contact key={app.id} app={app} />
 
@@ -75,7 +84,7 @@ function App() {
         isOpen={isOpen}
 
       />
-      <ToastContainer  position='bottom-right'/>
+      <ToastContainer toastStyle={{ backgroundColor: "black", color: "white" }} position='bottom-right'/>
     </>
   )
 }

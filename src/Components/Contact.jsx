@@ -17,10 +17,10 @@ function Contact({ app }) {
     try {
       const contactRef = collection(db, "contects");
       await deleteDoc(doc(contactRef, id));
-      toast.success("Contact deleted successfully");
+      toast.error("Contact deleted successfully");
 
-     onClose
-
+     onClose(); // Close the modal after deleting the contact
+     
 
     } catch (error) {
       console.log(error);
